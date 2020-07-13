@@ -1,0 +1,25 @@
+:s
+    /[\s\n]+/
+
+:g
+	/"(?<string>([^\\"]|\\.)*?)"/
+	/'(?<string>([^\\']|\\.)*?)'/
+
+:a
+    /[a-zA-Z_][a-zA-Z0-9_:]*/
+
+:t
+	attribute=:a "=" value=:g
+
+:text
+	/\s*(?<text>[^<]+?)\s*(?=<)/
+	/<!\[CDATA\[\s*(?<text>[\s\S]*?)\s*\]\]>/
+
+:n
+	?:s "<" tag=:a ?:s attributes=?...[:s]:t ?:s ">" =:text "</" $tag ">"
+    ?:s "<" tag=:a ?:s attributes=?...[:s]:t ?:s ">" nodes=?...:n "</" $tag ">"
+    ?:s "<" tag=:a ?:s attributes=?...[:s]:t ?:s "/>"
+    ?:s "<?" prolog=:a ?:s attributes=?...[:s]:t ?:s "?>"
+
+:main
+	nodes=...:n

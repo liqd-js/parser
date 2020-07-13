@@ -1,0 +1,39 @@
+:ws
+    /[\s\n]+/
+
+:string
+	=/"(?<string>([^\\"\r\n]|\\[^\r\n])*?)"/
+	=/'(?<string>([^\\'\r\n]|\\[^\r\n])*?)'/
+
+	$ => ( console.log( $ ), Util.unescape( $.string ))
+
+:alphanumeric
+    =/[a-zA-Z_][a-zA-Z0-9_:]*/
+
+:script
+	=/(.|\n)*?(?=<\/script>)/
+
+:style
+	=/(.|\n)*?(?=<\/style>)/
+
+:expression
+	"{" =/[^{}]+/ "}"
+
+:attribute
+	attribute=:alphanumeric "=" =:expression
+	attribute=:alphanumeric "=" value=:string
+	attribute=:alphanumeric
+
+:textnode
+	=/\s*[^<]+?\s*(?=<)/
+
+:node
+	?:ws "<" tag="script" ?:ws attributes=?...[:ws]:attribute ?:ws ">" script=:script "</script>"
+	?:ws "<" tag="style" ?:ws attributes=?...[:ws]:attribute ?:ws ">" style=:style "</style>"
+	?:ws "<" tag=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws ">" text=:textnode "</" $tag ">"
+	?:ws "<" tag=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws ">" nodes=?...[:ws]:node "</" $tag ">"
+    ?:ws "<" tag=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws ">" nodes=?...[:ws]:node ?:ws "</" $tag ">"
+	?:ws "<" tag=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws "/>"
+
+:main
+	nodes=...[:ws]:node ?:ws

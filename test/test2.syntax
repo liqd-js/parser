@@ -1,0 +1,8 @@
+:string
+    =/"(?<string>([^\\"]|\\.)*?)"/
+	=/'(?<string>([^\\']|\\.)*?)'/
+
+    $ => Util.unescape( $.string )
+
+:main
+    strings=?...[/\s*,\s*/]:string

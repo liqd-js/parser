@@ -1,0 +1,1 @@
+/foo/m /janko/ /hras[dasdas\/]ko/gm

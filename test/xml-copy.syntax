@@ -1,0 +1,25 @@
+:ws
+    /[\s\n]+/
+
+:string
+	.string=/"(?<string>([^\\"]|\\.)*?)"/
+	.string=/'(?<string>([^\\']|\\.)*?)'/
+
+:alphanumeric
+    =/[a-zA-Z_][a-zA-Z0-9_:]*/
+
+:attribute
+	attribute=:alphanumeric "=" value=:string
+
+:text
+	.text=/\s*(?<text>[^<]+?)\s*(?=<)/
+	.text=/<!\[CDATA\[\s*(?<text>[\s\S]*?)\s*\]\]>/i
+
+:node
+	?:ws "<" tag=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws ">" =:text "</" $tag ">"
+    ?:ws "<" tag=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws ">" nodes=?...:node "</" $tag ">"
+    ?:ws "<" tag=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws "/>"
+    ?:ws "<?" prolog=:alphanumeric ?:ws attributes=?...[:ws]:attribute ?:ws "?>"
+
+:main
+	nodes=...:node ?:ws

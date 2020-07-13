@@ -1,0 +1,18 @@
+:ws
+    /[\s\n]+/
+
+:regex
+    =/\/((?![*+?])(?:[^\r\n\[\/\\]|\\.|\[(?:[^\r\n\]\\]|\\.)*\])+)\/[gmi]*/
+
+:string
+    =/"([^\\"\r\n]|\\[^\r\n])*?"/
+	=/'([^\\'\r\n]|\\[^\r\n])*?'/
+    =/`([^\\`]|\\.)*?`/
+
+:curly_brackets
+    ?:ws "{" :curly_brackets "}"
+    ?:ws :string
+    ?:ws :regex
+
+:main
+    regexes=?...[/\s+/]:regex
