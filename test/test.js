@@ -1,30 +1,22 @@
+'use strict';
 const fs = require('fs');
 
-let data = fs.readFileSync( __dirname + '/source.txt', 'utf8' );
-let word = /(?<test>[a-zA-Z]+)/y, space = /(?<space>[,.;\s]+)/y;
-let index = 0, match;
+process.on('uncaughtException', () => {});
+process.on('unhandledRejection', () => {});
 
-let start = process.hrtime();
-
-let parsed = [];
-
-while( index < data.length )
+describe( 'Tests', ( done ) =>
 {
-    word.lastIndex =  space.lastIndex = index;
+	var files = fs.readdirSync( __dirname + '/tests' );
 
-    match = data.match( word ) ||  data.match( space );
+	for( let file of files )
+	{
+		//if( !file.match(/\.js$/)/** / || ![ 'callbacks.js', 'freeze.js', 'nonexisting.js' ].includes( file )/**/ ){ continue; }
+		//if( !file.match(/\.js$/)/**/ || ![ 'exit.js' ].includes( file )/**/ ){ continue; }
+		if( !file.match(/\.js$/) ){ continue; }
 
-    if( !match )
-    {
-        console.log( data.substr( index, 10 ));
-    }
-    
-    parsed.push( match.groups );
-
-    index += match[0].length;
-}
-
-let end = process.hrtime( start );
-
-console.log( 'finito', (( end[0] * 1e9 + end[1] ) / 1e6 ).toFixed( 3 ) + ' ms');
-
+		describe( file, () =>
+		{
+			require( __dirname + '/tests/' + file );
+		});
+	}
+});

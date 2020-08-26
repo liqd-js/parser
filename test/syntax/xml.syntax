@@ -1,0 +1,31 @@
+:string
+	'"' =/([^\\"]|\\.)*/ '"'
+    "'" =/([^\\']|\\.)*/ "'"
+
+    $ => Util.unescape( $ )
+
+:text
+	/[\s\n]*/ text=/[^<]+?\s*(?=<)/ /[\s\n]*/
+	"<![CDATA[" cdata=/[\s\S]*?(?=\]\]>)/ "]]>"
+
+    $ => $.hasOwnProperty('text') ? $.text.replace(/\s*\n\s*/g, ' ' ) : $.cdata
+
+:attribute
+    name=/[a-zA-Z_][a-zA-Z0-9_:]*/ "=" value=:string
+
+:attributes
+    /[\s\n]+/ attributes=?...[/[\s\n]+/]:attribute
+    /[\s\n]*/
+
+    $ => $.attributes ? $.attributes.reduce(( aa, a ) => ( aa[a.name] = a.value, aa ), {}) : {}
+
+:node
+	"<" tag=/[a-zA-Z][a-zA-Z0-9_:]*/ =?:attributes ">" text=:text "</" $tag ">"
+    "<" tag=/[a-zA-Z][a-zA-Z0-9_:]*/ =?:attributes ">" /[\s\n]*/ nodes=?...[/[\s\n]*/]:node /[\s\n]*/ "</" $tag ">"
+	"<" tag=/[a-zA-Z][a-zA-Z0-9_:]*/ =?:attributes "/>"
+
+:prolog
+    "<?" tag=/[a-zA-Z][a-zA-Z0-9_:]*/ =?:attributes "?>"
+
+:main
+    /[\s\n]*/ =?:prolog /[\s\n]*/ nodes=...[/[\s\n]*/]:node /[\s\n]*/

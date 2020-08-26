@@ -1,0 +1,42 @@
+$foo: bar;
+
+:root {
+    --main-bg-color: brown;
+  }
+
+@keyframes slidein {
+    from {
+      transform: translateX(0%);
+    }
+  
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+html, body
+{
+    color: #fff;
+    text-align: center;
+    border: 1px solid red;
+
+    &:hover
+    {
+        color: blue;
+    }
+
+    background-color: var(--my-var, var(--my-background, pink));
+}
+
+@test-generatora
+{
+    color: red;
+}
+
+@test-generatora-s-premennymi( $foo : test, $bar )
+{
+    color: red;
+}
+
+@generujem-to0tu( janko, 'hrasko', $test );
+@generujem-to0tu;

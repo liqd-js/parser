@@ -1,11 +1,11 @@
 {
   "name": "@liqd-js/parser",
   "description": "Parser library",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "author": "radixxko",
   "license": "MIT",
   "main": "lib/parser.js",
-  "homepage" : "https://liqd-js.com/lib/parser",
+  "homepage": "https://liqd-js.com/lib/parser",
   "files": [
     "lib/"
   ],

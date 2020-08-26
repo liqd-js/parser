@@ -1,0 +1,119 @@
+[
+    {
+      "assignment": {
+        "variable": "$foo",
+        "value": "bar"
+      }
+    },
+    {
+      "selector": ":root",
+      "style": [
+        {
+          "property": "--main-bg-color",
+          "value": "brown"
+        }
+      ]
+    },
+    {
+      "rule": {
+        "identifier": "@keyframes",
+        "selector": "slidein",
+        "style": [
+          {
+            "selector": "from",
+            "style": [
+              {
+                "property": "transform",
+                "value": "translateX(0%)"
+              }
+            ]
+          },
+          {
+            "selector": "to",
+            "style": [
+              {
+                "property": "transform",
+                "value": "translateX(100%)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "selector": "html, body",
+      "style": [
+        {
+          "property": "color",
+          "value": "#fff"
+        },
+        {
+          "property": "text-align",
+          "value": "center"
+        },
+        {
+          "property": "border",
+          "value": "1px solid red"
+        },
+        {
+          "selector": "&:hover",
+          "style": [
+            {
+              "property": "color",
+              "value": "blue"
+            }
+          ]
+        },
+        {
+          "property": "background-color",
+          "value": "var(--my-var, var(--my-background, pink))"
+        }
+      ]
+    },
+    {
+      "generator": {
+        "name": "test-generatora",
+        "style": [
+          {
+            "property": "color",
+            "value": "red"
+          }
+        ]
+      }
+    },
+    {
+      "generator": {
+        "name": "test-generatora-s-premennymi",
+        "arguments": [
+          {
+            "variable": "$foo",
+            "default": "test"
+          },
+          {
+            "variable": "$bar"
+          }
+        ],
+        "style": [
+          {
+            "property": "color",
+            "value": "red"
+          }
+        ]
+      }
+    },
+    {
+      "generate": {
+        "generator": "generujem-to0tu",
+        "arguments": [
+          "janko",
+          "'hrasko'",
+          "$test "
+        ]
+      }
+    },
+    {
+      "generate": {
+        "generator": "generujem-to0tu"
+      }
+    }
+  ]

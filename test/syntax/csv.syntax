@@ -1,0 +1,15 @@
+:column
+    '"' quoted=/(""|[^"])*/ '"'
+    =/[^,\s]*/
+
+    $ => typeof $ === 'string' ? $ : $.quoted.replace(/""/g,'"')
+
+:row
+    columns=...[/\s*,\s*/]:column
+
+    $ => $.columns
+
+:main
+    rows=...[/\s*\n/]:row  /[\s\n]*/
+
+    $ => $.rows
